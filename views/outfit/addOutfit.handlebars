@@ -1,0 +1,27 @@
+<!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
+<div class="container">
+	<div class="card card-body">
+		<h3>Share Outfit</h3>
+		<form action="/outfit/addOutfit" method="post" id="addOutfit">
+			<div class="row">
+				<div class="col-lg-3">
+					{{!-- File upload --}}
+					<input type="file" id="posterUpload" name="posterUpload" accept="image/png, image/jpeg, image/jpg, image/gif">
+					
+					{{!-- Poster image --}}
+					<img src="/img/no-image.jpg" alt="" id="poster" class="border img-thumbnail img-fluid" style="height: 95%; width: 100%;">
+					
+					{{!-- Hidden error message --}}
+					<div class="font-weight-bold text-danger small" id="posterErr" style="display: none;"></div>
+					
+					{{!-- Hidden field to submit URL of poster to the server --}}
+					<input type="hidden" id="posterURL" name="posterURL">
+				</div>
+			</div>
+
+			<br>
+			<button id="butAddOutfit" type="submit" class="btn btn-primary">Share
+			</button>
+		</form>
+	</div>
+</div>

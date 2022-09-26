@@ -58,6 +58,7 @@ $('#posterUpload').on('change', function(){
         'success':(data) => {
             $('#poster').attr('src', data.file);
             $('#posterURL').attr('value', data.file);// sets posterURL hidden field
+            console.log("hello");
             if(data.err){
                 $('#posterErr').show();
                 $('#posterErr').text(data.err.message);

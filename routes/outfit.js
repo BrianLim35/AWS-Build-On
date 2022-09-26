@@ -32,11 +32,11 @@ router.get('/showAddOutfit', ensureAuthenticated, (req, res) => {
 // Adds new outfit from /outfit/addOutfit
 router.post('/addOutfit', ensureAuthenticated, (req, res) => {
     let userId = req.user.id;
-    let posterURL = req.body.posterURL;
+    let outfitURL = req.body.posterURL;
 
     // Multi-value components return array of string or undefined
     Outfit.create({
-        posterURL,
+        outfitURL,
         fitting: 0,
         notFitting: 0,
         userId

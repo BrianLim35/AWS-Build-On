@@ -126,3 +126,4 @@ function showResults() {
     answers[i].querySelector(".percentage-value").innerText = percentage + "%";
   }
 }
+});

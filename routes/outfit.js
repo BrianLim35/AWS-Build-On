@@ -11,14 +11,31 @@ const upload = require('../helpers/imageUpload');
 router.get('/listOutfits', ensureAuthenticated, (req, res) => {
     Outfit.findAll({
         where: {
-            userId: req.user.id
+            userId: req.user.id,
         },
         raw: true
     })
     .then((outfits) => {
         // pass object to listVideos.handlebars
         res.render('outfit/listOutfits', {
-            outfits: outfits
+            outfits: outfits,
+        });
+    })
+    .catch(err => console.log(err));
+});
+
+// List outfits belonging to shared user
+router.get('/listOutfits/:id', (req, res) => {
+    Outfit.findAll({
+        where: {
+            userId: req.params.id
+        },
+        raw: true
+    })
+    .then((outfits) => {
+        // pass object to listVideos.handlebars
+        res.render('outfit/indOutfits', {
+            outfits: outfits,
         });
     })
     .catch(err => console.log(err));
@@ -33,12 +50,14 @@ router.get('/showAddOutfit', ensureAuthenticated, (req, res) => {
 router.post('/addOutfit', ensureAuthenticated, (req, res) => {
     let userId = req.user.id;
     let outfitURL = req.body.posterURL;
+    let public = req.body.public;
 
     // Multi-value components return array of string or undefined
     Outfit.create({
         outfitURL,
         fitting: 0,
         notFitting: 0,
+        public,
         userId
     }) .then((video) => {
         res.redirect('/outfit/listOutfits');
@@ -110,30 +129,29 @@ router.post('/addOutfit', ensureAuthenticated, (req, res) => {
 //     }).catch(err => console.log(err))
 // });
 
-// // Delete the video
-// router.get('/delete/:id', ensureAuthenticated, (req, res) => {
-//     Video.findOne({
-//         where: {
-//             id: req.params.id
-//         }
-//     }).then((video) => {
-//         let videoTitle = video.title; // to store the video title to display in success message
-//         // Only authorised user who is owner of video can edit it
-//         if (req.user.id === video.userId) { // user logged in is the owner of the video
-//             Video.destroy({ // delete the video
-//                 where: {
-//                     id: req.params.id
-//                 }
-//             }).then(() => { // Redirect to the video list pae with the appropriate success message
-//                 alertMessage(res, 'success', videoTitle + ' Video Jot deleted', 'far fa-trash-alt', true);
-//                 res.redirect('/video/listVideos');
-//             })
-//         } else { // Show error message & log the user out
-//             alertMessage(res, 'danger', 'Unauthorised access to video', 'fas fa-exclamation-circle', true);
-//             res.redirect('/logout');
-//         }
-//     }).catch(err => console.log(err)); // To catch no video ID
-// });
+// Delete the video
+router.get('/delete/:id', ensureAuthenticated, (req, res) => {
+    Outfit.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((outfit) => {
+        // Only authorised user who is owner of video can edit it
+        if (req.user.id === outfit.userId) { // user logged in is the owner of the video
+            Outfit.destroy({ // delete the video
+                where: {
+                    id: req.params.id
+                }
+            }).then(() => { // Redirect to the video list pae with the appropriate success message
+                alertMessage(res, 'success', ' Outfit Deleted', 'far fa-trash-alt', true);
+                res.redirect('/outfit/listOutfits');
+            })
+        } else { // Show error message & log the user out
+            alertMessage(res, 'danger', 'Unauthorised access to video', 'fas fa-exclamation-circle', true);
+            res.redirect('/logout');
+        }
+    }).catch(err => console.log(err)); // To catch no video ID
+});
 
 // Upload poster
 router.post('/upload', ensureAuthenticated, (req, res) => {

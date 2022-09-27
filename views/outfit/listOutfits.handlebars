@@ -4,8 +4,16 @@
 <div class="container">
 {{#if outfits}}
 	<div class="card card-body">
-		<h3 class="text-primary">Video Jots</h3>
+		<h3 class="text-primary">AR Outfit Try-Ons</h3>
 		{{#each outfits}}
+			<p style="margin: 20px 0px 0px;">Sharing Link:</p>
+			<div class="copy-link">
+				<input type="text" class="copy-link-input" value="http://localhost:5000/outfit/listOutfits/{{userId}}" readonly>
+				<button type="button" class="copy-link-button">
+					<span class="material-icons">content_copy</span>
+				</button>
+			</div>
+
 			<div class="card border-primary mb-2 w-100 mx-auto">
 				<div class="card-body">
 					<div class="row">
@@ -17,12 +25,8 @@
 						
 						<div class="col-sm-12 col-md-6 col-lg-2">
 							<p class="font-italic"></p>
-							<a href="/video/edit/{{id}}" class="card-link">
-								<i class="fas fa-pencil-alt"></i>
-								Edit
-							</a>
-							<a href="/video/delete/{{id}}" class="card-link" data-toggle="confirmation"
-							   data-title="Confirm delete?">
+							<a href="/outfit/delete/{{id}}" class="card-link" data-toggle="confirmation"
+							data-title="Confirm delete?">
 								<i class="far fa-trash-alt"></i>
 								Delete
 							</a>
@@ -37,7 +41,7 @@
 								data-target="#collapseOne{{id}}"
 								aria-expanded="false" aria-controls="collapseOne{{id}}"
 						>
-							Story<i class="fas fa-chevron-down"></i>
+							Voting</i>
 						</button>
 
 					</div>
@@ -45,6 +49,13 @@
 					<div id="collapseOne{{id}}" class="collapse" aria-labelledby="headingOne{{id}}"
 						 data-parent="#storyAccordion{{id}}"
 					>
+						<div>
+							<div class="poll">
+								<div class="question"></div>
+								<div class="answers"></div>
+							</div>
+
+						</div>
 					</div>
 				</div>
 			</div>
@@ -53,7 +64,24 @@
 
 </div>
 {{else}}
-	<h3>No videos jotted</h3>
+	<h3>No outfits shared</h3>
 {{/if}}
 
 
+<script>
+	document.querySelectorAll(".copy-link").forEach((copyLinkParent) => {
+  const inputField = copyLinkParent.querySelector(".copy-link-input");
+  const copyButton = copyLinkParent.querySelector(".copy-link-button");
+  const text = inputField.value;
+
+  inputField.addEventListener("focus", () => inputField.select());
+
+  copyButton.addEventListener("click", () => {
+    inputField.select();
+    navigator.clipboard.writeText(text);
+
+    inputField.value = "Copied!";
+    setTimeout(() => (inputField.value = text), 2000);
+  });
+});
+</script>

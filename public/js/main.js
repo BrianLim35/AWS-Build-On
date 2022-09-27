@@ -68,3 +68,4 @@ $('#posterUpload').on('change', function(){
         }
     });
 });
+

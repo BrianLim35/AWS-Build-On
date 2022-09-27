@@ -11,6 +11,9 @@ const Outfit = db.define('outfit', {
     notFitting: {
         type: Sequelize.INTEGER
     },
+    public: {
+        type: Sequelize.BOOLEAN
+    }
 });
 
 module.exports = Outfit;

@@ -65,13 +65,15 @@
   border-radius:10px;
   cursor:pointer;
   overflow:hidden;
+  box-shadow: 1px 1px grey;
+  text-shadow: 0 0 black;
 }
 
 .poll .answers .answer.selected {
   border: 2px solid #8f9fe8;
 }
 
-.poll .answers .answer span.pencentage-value {
+.poll .answers .answer span.percentage-value {
   position: absolute;
   top:50%;
   right:0px;
@@ -81,13 +83,12 @@
   font-size: 15px;
 }
 
-.poll .answers .answer span.pencentage-bar {
+.poll .answers .answer span.percentage-bar {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 50%;
   height: 100%;
-  background: #ccd8f1;
-  z-index:-1;
-  transition:width 3000ms ease-in-out
+  background: #aabce57d;
+  z-index:auto;
+  transition:width 300ms ease-in-out;
 }
